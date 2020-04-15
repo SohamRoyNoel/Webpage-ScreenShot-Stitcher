@@ -3,53 +3,51 @@ package Master.Screenshot;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigInteger;
 
 import javax.imageio.ImageIO;
 
+
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.util.Units;
-import org.apache.poi.xwpf.model.XWPFHeaderFooterPolicy;
-import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
-import org.apache.poi.xwpf.usermodel.XWPFFooter;
-import org.apache.poi.xwpf.usermodel.XWPFHeader;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
-import org.apache.xmlbeans.XmlException;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTPageMar;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTSectPr;
-import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTabStop;
-import org.openxmlformats.schemas.wordprocessingml.x2006.main.STTabJc;
 
 
 
 public class WordConverter {
 
-	public void addImagesToWordDocument(File imageFile1, String dest)
-			throws IOException, InvalidFormatException {
-		XWPFDocument doc = new XWPFDocument();
+	static final double LeftMargin = .25;
+	static final double RightMargin = .25;
+	static final double TopMargin = .25;
+	static final double BottomMargin = .25;
+
+	public void addImagesToWordDocument(File imageFile1, String dest) throws IOException, InvalidFormatException {
+		XWPFDocument doc = new XWPFDocument();	
+
+		CTSectPr sectPr = doc.getDocument().getBody().addNewSectPr();
+		CTPageMar pageMar = sectPr.addNewPgMar();
+		pageMar.setLeft(BigInteger.valueOf(15L));
+		pageMar.setRight(BigInteger.valueOf(15L));
+		pageMar.setTop(BigInteger.valueOf(10L));
+		pageMar.setBottom(BigInteger.valueOf(10L));
+
+
 		XWPFParagraph p = doc.createParagraph();
-		XWPFRun r = p.createRun();
+		XWPFRun r = p.createRun();		
+
 		BufferedImage bimg1 = ImageIO.read(imageFile1);
-		int width1 = bimg1.getWidth();
-		int height1 = bimg1.getHeight();
+		int width1 = 600;
+		int height1 = 700;
 		String imgFile1 = imageFile1.getName();
 		int imgFormat1 = getImageFormat(imgFile1);
-		String p1 = "Sample Paragraph Post. This is a sample Paragraph post. Sample Paragraph text is being cut and pasted again and again. This is a sample Paragraph post. peru-duellmans-poison-dart-frog.";
-		String p2 = "Sample Paragraph Post. This is a sample Paragraph post. Sample Paragraph text is being cut and pasted again and again. This is a sample Paragraph post. peru-duellmans-poison-dart-frog.";
-		r.setText(p1);
-		r.addBreak();
-		r.addPicture(new FileInputStream(imageFile1), imgFormat1, imgFile1, Units.toEMU(width1), Units.toEMU(height1));
-		// page break
-		// r.addBreak(BreakType.PAGE);
-		// line break
-		r.addBreak();
-		r.setText(p2);
-		r.addBreak();
-		FileOutputStream out = new FileOutputStream("word_images.docx");
+		r.addPicture(new FileInputStream(imageFile1), imgFormat1, imgFile1, Units.toEMU(width1), Units.toEMU(height1));		
+		FileOutputStream out = new FileOutputStream(dest);
 		doc.write(out);
 		out.close();
 	}

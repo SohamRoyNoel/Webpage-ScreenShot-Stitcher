@@ -28,6 +28,10 @@ public class App
 		
 		sm.CaptureFullScreen(chromeDriverpath, url, pngLocation);
 //		generatePDFFromImage();
+		
+		/*
+		 * Generates The word Document
+		 * */
 		WordConverter wc = new WordConverter();
 		wc.addImagesToWordDocument(fl, docxDestination);
 		
