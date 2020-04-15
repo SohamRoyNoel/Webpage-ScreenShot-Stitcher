@@ -43,7 +43,7 @@ public class WordConverter {
 
 		BufferedImage bimg1 = ImageIO.read(imageFile1);
 		int width1 = 600;
-		int height1 = 700;
+		int height1 = 750;
 		String imgFile1 = imageFile1.getName();
 		int imgFormat1 = getImageFormat(imgFile1);
 		r.addPicture(new FileInputStream(imageFile1), imgFormat1, imgFile1, Units.toEMU(width1), Units.toEMU(height1));		

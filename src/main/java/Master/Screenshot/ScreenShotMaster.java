@@ -37,22 +37,6 @@ public class ScreenShotMaster {
 		driver.quit(); 
 	}
 	
-	public static void ConvertToPdf() {
-		Document document = new Document();
-	    String input = "D:\\New Java Workspace\\ScreenShots\\Screenshot\\OP\\ScreenOP.png";
-	    String output = "D:\\New Java Workspace\\ScreenShots\\Screenshot\\OP\\ScreenOP.pdf";
-	    try {
-	      FileOutputStream fos = new FileOutputStream(output);
-	      PdfWriter writer = PdfWriter.getInstance(document, fos);
-	      writer.open();
-	      document.open();
-	      document.add(Image.getInstance(input));
-	      document.close();
-	      writer.close();
-	    }
-	    catch (Exception e) {
-	      e.printStackTrace();
-	    }
-	}
+	
 
 }
